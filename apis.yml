@@ -1,0 +1,55 @@
+name: Felhő — Magyar üzleti infrastruktúra
+description: >-
+  Hungarian business-infrastructure platform offering company information (registry data, financials, officers/owners,
+  TEÁOR'25 activity codes), business verification and risk scoring, address/tax-number and bank routing lookups, and
+  domain/WHOIS-RDAP tools. Provides an authenticated REST/JSON API and agent-native llms.txt artifacts.
+url: https://raw.githubusercontent.com/api-evangelist/felh-magyar-zleti-infrastrukt-ra/refs/heads/main/apis.yml
+created: '2026-09-17'
+modified: '2026-09-17'
+specificationVersion: '0.21'
+tags:
+  - company data
+  - business verification
+  - domains
+  - WHOIS/RDAP
+  - Hungary
+  - API
+  - registry data
+  - financial data
+apis:
+  - name: Felhő REST API v1
+    description: >-
+      Authenticated REST/JSON API for company search and lookup, typeahead suggestions, single-company retrieval, and
+      domain WHOIS/RDAP lookups. Bearer API-key auth (flh_live_...), tied to a paid plan; 60 req/min per key.
+    humanURL: https://felho.hu/dokumentacio
+    baseURL: https://felho.hu/api/v1
+    tags:
+      - company data
+      - business verification
+      - domains
+      - WHOIS/RDAP
+      - Hungary
+      - API
+      - registry data
+      - financial data
+    properties:
+      - type: Documentation
+        url: https://felho.hu/dokumentacio
+      - type: LLMsTxt
+        url: https://felho.hu/llms.txt
+      - type: LLMsTxt
+        url: https://felho.hu/llms-full.txt
+      - type: LLMsTxt
+        url: https://felho.hu/llms-api-hu.txt
+      - type: LLMsTxt
+        url: https://felho.hu/llms-en.txt
+      - type: LLMsTxt
+        url: https://felho.hu/llms-hu.txt
+maintainers:
+  - FN: Verde Holding Kft.
+    url: https://felho.hu
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 90
+  at: '2026-09-17T23:57:15.132Z'
