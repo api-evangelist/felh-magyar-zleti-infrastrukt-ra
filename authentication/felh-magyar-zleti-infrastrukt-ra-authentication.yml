@@ -1,0 +1,31 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt (Felho API reference, "Alapok") + live 401 probe of https://felho.hu/api/v1/companies
+docs: https://felho.hu/dokumentacio
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+schemes:
+  - name: apiKey
+    type: apiKey
+    in: header
+    parameter_name: Authorization
+    scheme_prefix: 'Bearer '
+    key_prefix: flh_live_
+    description: >-
+      Send the API key as an HTTP bearer token: `Authorization: Bearer flh_live_…`. Keys are
+      issued from the /app dashboard and are bound to a paid plan; a key on a free workspace
+      returns HTTP 402 payment_required rather than 401, and starts working again when the plan
+      is activated (no re-issue needed). The key is a secret — the provider explicitly warns
+      against calling the API directly from a browser and instructs consumers to proxy requests
+      through their own backend.
+    sources: [llms-api-hu.txt]
+observed:
+  probe: https://felho.hu/api/v1/companies?q=teszt
+  http_status: 401
+  body: '{"error":"unauthorized","message":"Missing API key. Send it as: Authorization: Bearer flh_..."}'
+  checked: '2026-09-18'
+notes: >-
+  Static bearer API key only. No OAuth 2.0 / OpenID Connect, no mTLS. Confirmed against the
+  published reference and the live unauthenticated 401 response.

@@ -1,0 +1,49 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt ("Alapok" + "Hibakódok") and https://felho.hu/arak (monthly quotas per plan)
+docs: https://felho.hu/dokumentacio
+description: >-
+  Two independent limits: a fixed 60 requests/minute per API key, and a plan-dependent monthly
+  quota. Both are surfaced in response headers. The provider deliberately omits Retry-After on the
+  monthly-quota 429 because the wait is measured in days, not seconds; the quota resets on the
+  first day of the month (UTC).
+headers:
+  remaining: X-RateLimit-Remaining
+  quotaRemaining: X-Quota-Remaining
+responseCodes:
+  rateLimited: 429   # rate_limit_exceeded (per-minute)
+  quotaExceeded: 429 # quota_exceeded (monthly)
+limits:
+  - name: Per-key request rate
+    scope: key
+    metric: requests_per_minute
+    limit: 60
+    timeFrame: minute
+    header: X-RateLimit-Remaining
+    onExceed: 429 rate_limit_exceeded
+  - name: Monthly quota (Starter plan)
+    scope: plan
+    metric: company_queries_per_month
+    limit: 100
+    timeFrame: month
+    header: X-Quota-Remaining
+    onExceed: 429 quota_exceeded
+  - name: Monthly quota (Business plan)
+    scope: plan
+    metric: company_queries_per_month
+    limit: 2500
+    timeFrame: month
+    header: X-Quota-Remaining
+    onExceed: 429 quota_exceeded
+  - name: Monthly quota (API plan)
+    scope: plan
+    metric: requests_per_month
+    limit: null
+    timeFrame: month
+    note: Unlimited API requests on the top (API) plan; no monthly cap.
+policies:
+  - name: No Retry-After on quota exhaustion
+    description: >-
+      quota_exceeded (429) intentionally omits Retry-After; the reset is monthly (first of month,
+      UTC), not seconds away. rate_limit_exceeded (429) is the per-minute ceiling; back off within
+      the minute and read X-RateLimit-Remaining.

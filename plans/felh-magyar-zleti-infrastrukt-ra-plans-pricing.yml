@@ -1,0 +1,65 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/arak
+docs: https://felho.hu/arak
+currency: HUF
+billing_period: month
+vat_note: All subscription prices are gross (VAT-inclusive).
+plan_count: 3
+plans:
+  - name: Starter
+    price: 4990
+    currency: HUF
+    period: month
+    quota:
+      company_queries_per_month: 100
+    features:
+      - Basic company profiles
+      - Domain availability search
+      - Web dashboard access
+      - Email support
+  - name: Business
+    price: 19990
+    currency: HUF
+    period: month
+    badge: Most Popular
+    quota:
+      company_queries_per_month: 2500
+    features:
+      - Full verification with risk scoring
+      - Change monitoring and alerts
+      - CSV / bulk export
+      - Up to 10 team members
+      - Priority support
+  - name: API
+    price: 49990
+    currency: HUF
+    period: month
+    quota:
+      api_requests_per_month: unlimited
+    features:
+      - Unlimited API requests
+      - Real-time webhooks
+      - Bulk query endpoints
+      - Domain and verification APIs
+      - 99.9% uptime SLA
+      - Dedicated technical support
+domain_pricing:
+  currency: HUF
+  note: >-
+    Per-transaction .hu domain fees. Domain registration through Felho is currently pre-orders
+    only — they are not yet an accredited registrar.
+  operations:
+    - operation: Registration (first year)
+      price: 1590
+    - operation: Renewal (annual)
+      price: 2500
+    - operation: Re-registration
+      price: 4000
+    - operation: Restoration
+      price: 1500
+    - operation: Ownership transfer
+      price: 3000
+notes: >-
+  The API is gated behind the paid plans (a free-workspace key returns 402 payment_required).
+  Per-minute rate limit is a flat 60 req/min on every plan; plans differ by monthly quota.

@@ -1,0 +1,55 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt + https://felho.hu/llms.txt
+docs: https://felho.hu/dokumentacio
+summary: >-
+  Read-only JSON API (four GET endpoints, no write surface). Static bearer-key auth, UTF-8 JSON,
+  offset/limit pagination, per-minute rate-limit and monthly-quota headers, and a flat
+  {error,message} error envelope. A strong, explicitly documented null-semantics contract:
+  missing data is always null, never 0 or an empty string, and is never estimated.
+auth:
+  style: apiKey
+  transport: 'Authorization: Bearer flh_live_…'
+  cross_link: authentication/felh-magyar-zleti-infrastrukt-ra-authentication.yml
+pagination:
+  style: offset
+  params: [limit, offset]
+  defaults: { limit: 25, offset: 0 }
+  max_limit: 100
+  response_fields: [pagination.total, pagination.limit, pagination.offset, pagination.hasMore]
+versioning:
+  style: uri
+  current: v1
+  base: https://felho.hu/api/v1
+error_envelope:
+  format: custom-json
+  shape: '{error, message}'
+  cross_link: errors/felh-magyar-zleti-infrastrukt-ra-problem-types.yml
+rate_limit_signaling:
+  headers: [X-RateLimit-Remaining, X-Quota-Remaining]
+  cross_link: rate-limits/felh-magyar-zleti-infrastrukt-ra-rate-limits.yml
+data_semantics:
+  null_policy: >-
+    Missing values are always null, never 0 or empty string, and are never estimated. A company
+    that filed no financial statement is not a zero-revenue company.
+  address_parts: >-
+    Addresses are returned both as raw text (address) and pre-split for form-filling (addressParts:
+    postcode/city/street); non-standard addresses set the parts to null and populate only raw,
+    because a wrong split is worse than no split.
+  whois_registered: >-
+    The WHOIS `registered` field is three-valued: true = taken, false = provably free,
+    null = lookup failed. null NEVER means an available domain.
+  derived_scores: >-
+    verificationScore and riskScore/riskLevel are Felho's own derived measures (verificationScore
+    measures profile completeness, not creditworthiness); they are not official ratings.
+idempotency:
+  coverage: na
+  note: >-
+    Read-only API — all four endpoints are GET and there is no mutating surface, so replay
+    protection (Idempotency-Key) does not apply. na, not a gap.
+reversibility:
+  grade: na
+  note: Read-only API with no write/state-changing operations; nothing to reverse.
+dry_run_mode:
+  supported: na
+  note: Read-only API; no writes to rehearse.

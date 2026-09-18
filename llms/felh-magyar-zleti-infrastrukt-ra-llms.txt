@@ -1,0 +1,128 @@
+# Felho — felho.hu
+
+> Magyar céginformációs platform. Nyilvános cégjegyzéki és beszámolóadatok, cégvezetői és tulajdonosi kapcsolatok, TEÁOR'25 tevékenységi osztályozás, cégjegyzékszám- és adószám-magyarázat, bankszámla-irányítókódok, valamint domain- és WHOIS-eszközök. Üzemelteti a Verde Holding Kft.
+
+Ez a fájl magyarul van, mert a termék is: a felho.hu magyar cégadatokat közöl, és a hivatkozott oldalak túlnyomó része magyar nyelvű. Angol oldalfa: /en (angol változat: https://felho.hu/llms-en.txt), német oldalfa: /de, szlovák oldalfa: /sk, román oldalfa: /ro, ukrán oldalfa: /uk, lengyel oldalfa: /pl, cseh oldalfa: /cs, szerb oldalfa: /sr, kínai oldalfa: /zh.
+
+## Az adatokról
+
+- Kétféle adatlap van, és nem ugyanazt tartalmazzák. A teljes cégprofil (/ceg/{slug}) beszámolókat, tisztségviselőket és tulajdonosokat is közöl. A NAV-adatlap (szintén /ceg/{slug}, de a NAV nyilvántartásából) csak nevet, székhelyet és a NAV által nyilvántartott létszámot — se beszámoló, se tulajdonos, se tisztségviselő.
+- A NAV-adatok a NAV nyilvános áfaalany-nyilvántartásából és a köztartozásmentes adózói adatbázisból származnak. Minden ilyen adatlapon szerepel a lekérdezés dátuma.
+- A NAV nyilvántartása nem közöl tevékenységi kódot (TEÁOR), árbevételt, eredményt és saját tőkét. Ezért a NAV-adatlapok nem szerepelnek iparág szerinti bontásban és a beszámolókra épülő toplistákban sem.
+- A KOMA-listáról való hiányzás nem köztartozás: jelentheti azt is, hogy a cég nem kérte a felvételét, vagy hogy az adott hónap még nem jelent meg. Sehol nem jelenítjük meg tartozásként.
+- A cégjegyzéki adatok a nyilvános magyar cégjegyzékből és a közzétett beszámolókból származnak. Nem a mi állításaink, hanem a nyilvántartás tartalma.
+- A pénzügyi számok a legutóbbi közzétett beszámolóból valók. Ahol egy cég nem tett közzé beszámolót, ott nem írunk nullát — az adat hiányzik, nem nulla.
+- Egy személy adatlapján szereplő árbevétel és létszám a hozzá kapcsolt cégeké, nem az övé.
+- A verifikációs pontszám és a kockázati pontszám a Felhő saját származtatott számai, nem hivatalos minősítések. A hitelminősítés harmadik féltől származik. A verifikációs pontszám azt méri, mennyire teljes az adatlap, nem a cég hitelképességét; a számítása minden adatlapon nyitható tételesen.
+- Az „Igazolt” jelölés annyit jelent, hogy az adott személy igazolta, hogy az adatlap az övé.
+- A cégjegyzékből származó adatokat senki nem szerkesztheti. A bemutatkozó szöveg és a linkek a profil tulajdonosától származnak, és `rel="nofollow ugc"` jelöléssel jelennek meg.
+- A Felho nem áll kapcsolatban semmilyen állami hatósággal vagy hivatalos cégnyilvántartással.
+
+## Fogalmak
+
+- **cégjegyzékszám** — A cég azonosítója a cégjegyzékben, 2-2-6 számjegy: cégbíróság, cégforma, sorszám. Például 01-09-729429.
+- **adószám** — NAV-adószám, 11 számjegy 8-1-2 bontásban. A középső számjegy az áfa-kód, az utolsó kettő az illetékes adóigazgatóság. Ez utóbbi nem feltétlenül egyezik a cégjegyzékszám vármegyekódjával — budapesti cégeknél több érték is előfordul.
+- **TEÁOR** — Tevékenységi osztályozás. A TEÁOR'25 2025-től váltotta a TEÁOR'08-at; négy szintje van (nemzetgazdasági ág, ágazat, alágazat, szakágazat).
+- **irányítókód** — A bankszámlaszám első három számjegye, a számlavezető pénzintézetet azonosítja.
+- **beszámoló** — Éves pénzügyi beszámoló. Nyilvánosan közzétett; ebből származik minden pénzügyi szám az oldalon.
+- **székhely** — A cég bejegyzett székhelye.
+- **ügyvezető / tulajdonos** — Vezető tisztségviselő, illetve tagi (tulajdonosi) jogviszony. Egy személy lehet mindkettő.
+- **Kft. / Bt. / Zrt. / Nyrt.** — Társasági formák: korlátolt felelősségű társaság, betéti társaság, zártkörűen és nyilvánosan működő részvénytársaság.
+- **cégbíróság / törvényszék** — A cégnyilvántartást vezető bíróság, vármegye szerint. A 01 Budapest.
+- **igazolt profil** — Egy személy igazolta, hogy az adatlap az övé. Nem minősítés, és nem a cégadatok hitelesítése.
+
+## Nyilvános oldalak
+
+Bejelentkezés nélkül elérhető. A magyar fa a gyökérben, az angol a /en előtag alatt — saját útvonalnevekkel, és nem fedi le a teljes tartalmat.
+
+- `/` (EN `/en`) — Nyitóoldal.
+- `/cegkereso` (EN `/en/company-search`) — Cégkeresés név, székhely, adószám vagy cégjegyzékszám szerint.
+- `/cegek` (EN `/en/companies`) — Cégjegyzék. /cegek/{varos} és /cegek/{varos}/{iparag} szűkíti.
+- `/ceg/{slug}` (EN `/en/company/{slug}`) — Cégadatlap: azonosítók, székhely, főtevékenység, tisztségviselők, tulajdonosok, közzétett beszámolók évenként, bankszámlák, nyilvántartási jelzők.
+- `/szemelyek` — Cégvezetők és tulajdonosok névsora.
+- `/szemely/{slug}` (EN `/en/person/{slug}`) — Személy adatlapja: mely cégekhez kapcsolódik és milyen tisztségben, továbbá e cégek összesített adatai.
+- `/cegek/tevekenyseg` — Cégek tevékenységi kör szerint, a nyilvántartott cégnevükben vállalt tevékenység alapján — a cégek önbevallása, nem statisztikai besorolás. Alkategóriák: /cegek/tevekenyseg/{kategoria}, létszám szerint rendezve.
+- `/afaalanyok` — A NAV nyilvános áfaalany-nyilvántartásából ismert cégek. Név vagy adószám szerint kereshető; oldalanként 100 cég.
+- `/cim/{cim}` — Egy címre bejegyzett összes cég. A cím kulcsa az irányítószám, a település, a közterület és a házszám ékezet nélküli alakja, például /cim/1052-budapest-vaci-utca-1. Legalább két cég kell hozzá.
+- `/cimek` — Címek, amelyekre több cég székhelye van bejegyezve, cégszám szerint rendezve. Irodaházak, ügyvédi irodák és székhelyszolgáltatók.
+- `/iranyitoszam` — Irányítószámok. /iranyitoszam/kod/{kod} egy kódra, a hozzá tartozó településsel és az oda bejegyzett cégekkel; /iranyitoszam/telepules/{betu} az A–Z névsor; /iranyitoszam/budapest-{n}-kerulet a kerületekre.
+- `/teaor08` — A megváltozott TEÁOR'08 kódok és TEÁOR'25 megfelelőik. /teaor08/{kod} egy kódra; a változatlan kódok a TEÁOR'25 oldalra irányítanak át.
+- `/toplista` (EN `/en/rankings`) — Toplisták. /toplista/{metrika} — arbevetel, nyereseg, letszam, sajat-toke, novekedes, csokkenes (visszaesés), veszteseg —, opcionálisan /varos/{varos} és /iparag/{iparag} szűkítéssel; /toplista/szemelyek a személyekre. Németül: /de/ranglisten, szlovákul: /sk/rebricky, románul: /ro/clasamente, ukránul: /uk/reytynhy, lengyelül: /pl/rankingi, csehül: /cs/zebricky, szerbül: /sr/rang-liste, kínaiul: /zh/rankings.
+- `/teaor` — TEÁOR'25 tevékenységi osztályozás. /teaor/{kod} minden kódra; a pont nélküli alak (6832) a pontosra irányít át.
+- `/iparagak` (EN `/en/industries`) — Iparágak. /iparag/{slug} az egyes iparágakra.
+- `/varosok` (EN `/en/cities`) — Városok, a székhely szerinti cégekkel.
+- `/cegjegyzekszam` — Cégjegyzékszám-kódtár. /cegjegyzekszam/{birosag} a cégbíróságokra, /cegjegyzekszam/cegforma/{kod} a cégformákra.
+- `/cegjegyzekszam-kereso` (EN `/en/registration-number-search`) — Cégjegyzékszám feloldása részekre.
+- `/adoszam-ellenorzes` (EN `/en/tax-number-check`) — Adószám szerkezete és ellenőrző számjegye.
+- `/bankszamlaszam` — Bankszámlaszám irányítókódok. /bankszamlaszam/{kod} megmondja, melyik bank vezeti az adott kóddal kezdődő számlákat. A kereső elfogad teljes számlaszámot is.
+- `/domain-kereso` (EN `/en/domain-search`) — Domain elérhetőség és WHOIS/RDAP lekérdezés.
+- `/tudastar` (EN `/en/knowledge`) — Magyarázatok a kódrendszerekhez. Cikkek: /tudastar/{slug}; angolul /en/knowledge/{slug}, németül /de/wissen/{slug}, szlovákul /sk/znalosti/{slug}, románul /ro/cunostinte/{slug}, ukránul /uk/baza-znan/{slug}, lengyelül /pl/baza-wiedzy/{slug}, csehül /cs/znalosti/{slug}, szerbül /sr/baza-znanja/{slug}, kínaiul /zh/knowledge/{slug} — saját slugokkal, hreflang-gal összekötve.
+- `/dokumentacio` (EN `/en/api`) — API dokumentáció emberi olvasásra.
+- `/arak` (EN `/en/pricing`) — Csomagok és domainárak.
+- `/statusz` (EN `/en/status`) — Szolgáltatások elérhetősége.
+- `/rolunk` (EN `/en/about`) — A platformról és az üzemeltetőről.
+- `/adatvedelem` (EN `/en/privacy`) — Adatkezelési tájékoztató.
+- `/aszf` (EN `/en/terms`) — Általános szerződési feltételek.
+
+Tudástári cikkek (magyarul):
+
+- `/tudastar/bankszamlaszam-felepitese` — Hogyan épül fel a magyar bankszámlaszám?
+- `/tudastar/teaor-25` — TEÁOR'25: mit jelentenek a tevékenységi kódok?
+- `/tudastar/cegjegyzekszam` — Mit jelent a cégjegyzékszám?
+- `/tudastar/adoszam-ellenorzes-hogyan` — Hogyan ellenőrizhetem egy cég adószámát?
+- `/tudastar/koztartozasmentes-adozoi-adatbazis` — Mi a köztartozásmentes adózói adatbázis (KOMA)?
+- `/tudastar/szekhelyszolgaltatas` — Miért van több cég ugyanazon a címen?
+- `/tudastar/afaalany-mit-jelent` — Mit jelent, ha egy cég áfaalany?
+- `/tudastar/ceg-ellenorzese-ingyen` — Hogyan ellenőrizhetek egy céget ingyen?
+
+## Amit fiókkal lehet
+
+- Fiók a `/app` felületen: cégfigyelés és értesítések, domainek kezelése, határidők, dokumentumok, riportok, csapattagok, számlázás és API-kulcsok.
+- Saját adatlap igénylése: aki szerepel a cégvezetői névsorban, igényelheti a személyes adatlapját. Igazolás céges e-mail címre küldött kóddal vagy okmány feltöltésével; jóváhagyás után szerkeszthető a profilkép, a bemutatkozás és a linkek — a cégjegyzéki adatok nem.
+- Jóváhagyott személyes igénylés után az adott személyhez kapcsolt cégek adatlapján is írható rövid bemutatkozás és linkek.
+- A regisztráció és a bejelentkezés a `/login` oldalon történik.
+
+## Nyilvános API
+
+JSON API. Alapcím: `https://felho.hu/api/v1`. Hitelesítés API-kulccsal: `Authorization: Bearer …`. Kulcs a `/app` felületen igényelhető, fizetős csomaghoz kötötten. Percenként 60 kérés, a havi keret csomagfüggő (Starter 100, Business 2 500, API korlátlan).
+
+- `GET /companies` — Cégek listázása és keresése
+- `GET /companies/suggest` — Partner-automatikus kitöltés (typeahead)
+- `GET /companies/{id}` — Egy cég lekérdezése azonosító vagy adószám alapján
+- `GET /whois/{domain}` — Domain regisztrációs adatok
+
+Teljes referencia Markdownban: https://felho.hu/llms-api-hu.txt
+
+## Gépi erőforrások
+
+- `https://felho.hu/sitemap.xml` — sitemap index, szakaszonkénti fájlokkal (`/sitemap/{szakasz}.xml`). A NAV-cégek, a települések és a címek saját, generált fájlokban: `/sitemap/nav-cegek/{n}.xml`, `/sitemap/nav-varosok.xml`, `/sitemap/nav-cimek.xml`.
+- `https://felho.hu/teaor-index.json` — a teljes TEÁOR'25 lista (kód, név, útvonal, szint), hitelesítés nélkül.
+- `https://felho.hu/og{útvonal}` — az adott oldal link-előnézeti képe, 1200×630 PNG.
+- `https://felho.hu/robots.txt` — minden ügynök engedélyezve.
+- `https://felho.hu/llms.txt` (magyar, elsődleges) és `https://felho.hu/llms-en.txt` (angol) — ez a fájl. A `/llms-hu.txt` ugyanezt adja vissza.
+- `https://felho.hu/llms-full.txt` — ugyanez, de a teljes API-referenciával és a tudástári cikkekkel egy fájlban.
+- Minden oldal hordoz JSON-LD strukturált adatot (Organization, WebSite, BreadcrumbList, ItemList, FAQPage), valamint canonical és hreflang hivatkozásokat.
+
+## Terjedelem
+
+80 teljes cégprofil és 522 499 NAV-adatlap, 473 személlyel. A kettő nem ugyanaz: lásd fent, „Az adatokról”. Oldalak szakaszonként:
+
+- 31 statikus oldal és magyarázat
+- 186 cég-, város- és iparágoldal
+- 474 személyoldal
+- 110 toplistaoldal
+- 1048 TEÁOR'25 kódoldal
+- 241 teaor08
+- 3008 iranyitoszam
+- 44 fogalmak
+- 44 adoszam
+- 195 varmegyek
+- 162 gfo
+- 41 cégjegyzékszám-kódoldal
+- 231 irányítókódoldal
+
+Összesen 5815 nyilvános magyar oldal, mind szerepel a sitemapban. Az angol fa külön, kisebb sitemapot használ: https://felho.hu/en/sitemap.xml
+
+## Kapcsolat
+
+Hibás adat vagy adatlap eltávolítása: https://felho.hu/rolunk. Adatkezelés: https://felho.hu/adatvedelem

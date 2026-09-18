@@ -1,0 +1,23 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt + https://felho.hu/arak + https://felho.hu/statusz
+docs: https://felho.hu/dokumentacio
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://felho.hu/api/v1
+  note: Single published major version (v1). No prior/deprecated versions documented.
+status_page:
+  url: https://felho.hu/statusz
+  url_en: https://felho.hu/en/status
+sla:
+  uptime: '99.9%'
+  scope: API plan
+  source: https://felho.hu/arak
+deprecation:
+  policy_documented: false
+  sunset_headers: false
+  note: >-
+    No published deprecation policy, and no RFC 8594 Sunset/Deprecation header usage is documented.
+    No deprecated operations (the API exposes four current GET endpoints).
+deprecated_operations: []

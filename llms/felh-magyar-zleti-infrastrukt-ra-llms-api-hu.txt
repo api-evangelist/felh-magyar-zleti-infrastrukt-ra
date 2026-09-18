@@ -1,0 +1,185 @@
+# Felho API
+
+> Magyar céginformációs és domain API. Cégjegyzéki adatok, tulajdonosok, tisztségviselők, közzétett pénzügyi beszámolók és WHOIS/RDAP lekérdezés.
+
+## Alapok
+
+- Alap URL: `https://felho.hu/api/v1`
+- Hitelesítés: `Authorization: Bearer flh_live_…`
+- Korlát: 60 kérés/perc kulcsonként (`X-RateLimit-Remaining`)
+- Válasz: JSON, UTF-8
+
+## Fontos tudnivalók
+
+- A hiányzó adat `null`, nem 0 és nem üres sztring. Egy beszámolót be nem nyújtó cég nem nulla árbevételű cég.
+- A WHOIS `registered` mezője háromértékű: `true` foglalt, `false` igazoltan szabad, `null` sikertelen lekérdezés. A `null` **soha** nem jelent szabad domaint.
+- Több nyilvántartó (.hu, .de, .at, .eu, .be, .nl) nem teszi közzé a lejárati dátumot. Ilyenkor `expiryDate` hiányzik; az `estimatedExpiry` a regisztráció évfordulójából számolt **becslés**, nem nyilvántartói adat.
+- A `verificationScore` és a `riskScore` a Felho saját származtatott mutatói, nem hitelminősítői vagy hatósági értékek.
+- A bankszámlákhoz tartozó `bank` mező a számlaszám első három jegyéből származik, és `null`, ha a kód nem azonosítható biztosan.
+
+## Végpontok
+
+### GET /companies
+
+Az indexelt cégek lapozható listája. Szűrhető szabadszavas kereséssel, városra és iparágra. A keresés a cégnévre, teljes névre, adószámra, cégjegyzékszámra és az ügyvezető nevére illeszkedik; az adószám bármilyen írásmódban megadható.
+
+Ha `q` meg van adva (város- és iparágszűrő nélkül), a találatok kiegészülnek a NAV áfaalany-nyilvántartásából ismert cégekkel. A saját, teljes adatlappal rendelkező cégek állnak elöl, és minden sor `source` mezője megmondja, melyikről van szó.
+
+| Paraméter | Típus | Leírás |
+| --- | --- | --- |
+| `q` | string | Keresőkifejezés. Ez váltja ki a külön kereső végpontot. |
+| `city` | string | Város slug, pl. budapest. |
+| `industry` | string | Iparág slug, ahogy az /iparag útvonalban szerepel. |
+| `limit` | integer | Találatok száma, max 100 (alap: 25). |
+| `offset` | integer | Hányadik találattól (alap: 0). |
+
+```json
+{
+  "data": [
+    {
+      "id": "optifon-kft",
+      "name": "OPTIFON Kft.",
+      "taxNumber": "23860276-2-19",
+      "registrationNumber": "19-09-515125",
+      "status": "active",
+      "industry": "Információs, híradástechnikai termék kiskereskedelme",
+      "teaorCode": "4740",
+      "city": "Veszprém",
+      "verificationScore": 94,
+      "riskLevel": "low",
+      "source": "felho",
+      "url": "https://felho.hu/ceg/optifon-kft"
+    },
+    {
+      "id": "pelda-szoftverfejleszto-kft-28789514",
+      "name": "Példa Szoftverfejlesztő Kft.",
+      "taxNumber": "28789514-2-13",
+      "registrationNumber": null,
+      "status": "active",
+      "industry": null,
+      "address": "1052 Budapest, Váci utca 12. II. em. 3. ajtó",
+      "city": "Budapest",
+      "employeeCount": 7,
+      "source": "nav",
+      "retrievedAt": "2026-08-16",
+      "url": "https://felho.hu/ceg/pelda-szoftverfejleszto-kft-28789514"
+    }
+  ],
+  "pagination": { "total": 13, "limit": 25, "offset": 0, "hasMore": false }
+}
+```
+
+### GET /companies/suggest
+
+Gépelés közbeni javaslatok számlázó- és ügyviteli rendszereknek: a `q` lehet cégnév-részlet vagy adószám bármilyen írásmódban (fél adószám is szűkít). A találatok között a teljes Felhő-adatlappal rendelkező cégek állnak elöl, utánuk a NAV áfaalany-nyilvántartásából ismertek; adószám-törzsszám szerint deduplikálva.
+
+Minden javaslat ugyanabban a tömör, kitöltésre kész alakban érkezik: név, adószám 8-1-2 formában, törzsszám, cégjegyzékszám (NAV-soroknál `null`), és a székhely már szétbontva az `addressParts` mezőben (`postcode`, `city`, `street`) — ha a cím nem a szabványos alakot követi, a részek `null` értékűek és csak a `raw` mező van kitöltve, mert a rossz szétbontás rosszabb, mint a szétbontatlan. A kiválasztott sor `id` mezőjével a `/companies/{id}` adja a teljes rekordot. (A régebbi `address` mező ugyanezt az objektumot adja vissza — megmarad, de az `addressParts` a használandó név.)
+
+Az API-kulcs titok: böngészőből ne hívd közvetlenül — a saját backended továbbítsa a kérést.
+
+| Paraméter | Típus | Leírás |
+| --- | --- | --- |
+| `q` | string | Legalább 2 karakter. Cégnév-részlet vagy adószám (részlet is). |
+| `limit` | number | Javaslatok száma, 1–20. Alapértelmezés: 8. |
+
+```json
+{
+  "query": "opti",
+  "suggestions": [
+    {
+      "source": "felho",
+      "id": "optifon-kft",
+      "name": "OPTIFON Kft.",
+      "legalName": "OPTIFON Kereskedelmi és Szolgáltató Korlátolt Felelősségű Társaság",
+      "taxNumber": "12345678-2-19",
+      "taxRoot": "12345678",
+      "registrationNumber": "19-09-500000",
+      "addressParts": { "raw": "8200 Veszprém, Mester utca 34.",
+        "postcode": "8200", "city": "Veszprém", "street": "Mester utca 34." },
+      "url": "https://felho.hu/ceg/optifon-kft"
+    },
+    {
+      "source": "nav",
+      "id": "optimalis-pelda-kft-28789514",
+      "name": "Optimális Példa Kft.",
+      "legalName": null,
+      "taxNumber": "28789514-2-13",
+      "taxRoot": "28789514",
+      "registrationNumber": null,
+      "addressParts": { "raw": "2030 Érd, Minta utca 1.",
+        "postcode": "2030", "city": "Érd", "street": "Minta utca 1." },
+      "url": "https://felho.hu/ceg/optimalis-pelda-kft-28789514"
+    }
+  ]
+}
+```
+
+### GET /companies/{id}
+
+Az `{id}` lehet a cég azonosítója vagy az adószáma. Az adószám bármilyen írásmódban megadható — `13324223-4-44`, `13324223444`, `HU13324223` vagy csak a 8 jegyű törzsszám —, mindegyik ugyanazt a céget találja meg. Számlázó rendszerbe ez a végpont való: adószámra visszaadja a nevet és a székhelyet.
+
+A válasz `source` mezője mondja meg, milyen rekordot kaptál. A `felho` a teljes adatlap: tulajdonosok, tisztségviselők (anyja nevével és lakcímével, ahogy a cégjegyzékben szerepel), közzétett pénzügyi évek, bankszámlák és megfelelőségi jelzők. A `nav` a NAV áfaalany-nyilvántartásából származik: név, székhely és nyilvántartott létszám, `retrievedAt` dátummal — a cégjegyzéki mezők ilyenkor `null` értékűek.
+
+Mindkét forrás válasza tartalmazza az `addressParts` mezőt: a székhely űrlap-kitöltésre szétbontva (`postcode`, `city`, `street`), az esetleges „Magyarország” utótag nélkül — az `address` mező közben megőrzi a nyilvántartás pontos szövegét. Nem szabványos alakú címnél a részek `null` értékűek és csak a `raw` van kitöltve.
+
+A hiányzó mezők mindig `null` értékkel szerepelnek, nem hagyjuk el őket, és soha nem becsüljük meg őket. Ha az adószám ellenőrző számjegye hibás, a 404 válasz ezt külön jelzi.
+
+```json
+{
+  "data": {
+    "id": "optifon-kft",
+    "name": "OPTIFON Kft.",
+    "legalName": "OPTIFON Kereskedelmi és Szolgáltató Korlátolt Felelősségű Társaság",
+    "addressParts": { "raw": "1066 Budapest, Teréz körút 34. II. em. 12. ajtó",
+      "postcode": "1066", "city": "Budapest", "street": "Teréz körút 34. II. em. 12. ajtó" },
+    "officers": [
+      { "name": "Nagyőszi Norbert", "role": "managingDirector",
+        "motherName": "Kozma Margit", "residence": "8200 Veszprém, Mester utca 34." }
+    ],
+    "financials": [
+      { "year": 2025, "totalRevenue": 801307000, "profitAfterTax": 248688000,
+        "equity": 473742000, "employees": 38 }
+    ],
+    "bankAccounts": [
+      { "number": "12082104-01982083-00100000", "opened": "2024-06-05",
+        "bank": "Raiffeisen Bank", "status": "active" }
+    ]
+  }
+}
+```
+
+### GET /whois/{domain}
+
+WHOIS/RDAP lekérdezés. A `registered` mező háromértékű: `true` foglalt, `false` igazoltan szabad, `null` a lekérdezés nem sikerült. A `null` soha nem jelent szabad domaint. Több nyilvántartó (.hu, .de, .at, .eu) nem teszi közzé a lejárati dátumot — ilyenkor `expiryDate` üres, és `estimatedExpiry` a regisztráció évfordulójából számolt becslés.
+
+```json
+{
+  "domain": "felho.hu",
+  "registered": true,
+  "registrar": "Rackhost Zrt.",
+  "createdDate": "2015-03-24",
+  "expiryDate": null,
+  "estimatedExpiry": "2027-03-24",
+  "nameservers": ["ns1.rackhost.hu", "ns2.rackhost.hu"],
+  "source": "whois",
+  "note": "A .hu nyilvántartó nem teszi közzé a lejárati dátumot…"
+}
+```
+
+## Hibakódok
+
+| HTTP | Kód | Mikor |
+| --- | --- | --- |
+| 401 | `unauthorized` | Hiányzó, visszavont vagy érvénytelen kulcs. |
+| 402 | `payment_required` | A kulcs érvényes, de a munkaterülete ingyenes csomagon van. Az API a fizetős csomagok része — a kulcs a csomag aktiválásakor újra működik, nem kell újat kiállítani. |
+| 404 | `not_found` | Nincs ilyen azonosítójú rekord. |
+| 429 | `rate_limit_exceeded` | Túllépted a percenkénti 60 kérést. Az X-RateLimit-Remaining fejléc mutatja a maradékot. |
+| 429 | `quota_exceeded` | Elfogyott a csomag havi kerete. Az X-Quota-Remaining fejléc minden válaszon mutatja, mennyi maradt; a keret a hónap első napján (UTC) újraindul. Retry-After szándékosan nincs — a várakozás napokban mérhető, nem másodpercekben. |
+| 503 | `service_unavailable` | A háttérszolgáltatás nem elérhető — a kérés megismételhető. |
+
+## Kapcsolódó oldalak
+
+- https://felho.hu/dokumentacio
+- https://felho.hu/cegkereso
+- https://felho.hu/toplista
+- https://felho.hu/sitemap.xml

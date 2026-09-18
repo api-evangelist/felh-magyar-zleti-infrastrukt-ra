@@ -2,10 +2,13 @@ name: Felhő — Magyar üzleti infrastruktúra
 description: >-
   Hungarian business-infrastructure platform offering company information (registry data, financials, officers/owners,
   TEÁOR'25 activity codes), business verification and risk scoring, address/tax-number and bank routing lookups, and
-  domain/WHOIS-RDAP tools. Provides an authenticated REST/JSON API and agent-native llms.txt artifacts.
+  domain/WHOIS-RDAP tools. Provides an authenticated REST/JSON API and agent-native llms.txt artifacts. Operated by
+  Verde Holding Kft.; data is drawn from the public Hungarian company register, published financial statements and the
+  NAV VAT registry. Missing data is returned as null, never estimated.
 url: https://raw.githubusercontent.com/api-evangelist/felh-magyar-zleti-infrastrukt-ra/refs/heads/main/apis.yml
+image: https://felho.hu/og
 created: '2026-09-17'
-modified: '2026-09-17'
+modified: '2026-09-18'
 specificationVersion: '0.21'
 tags:
   - company data
@@ -19,10 +22,12 @@ tags:
 apis:
   - name: Felhő REST API v1
     description: >-
-      Authenticated REST/JSON API for company search and lookup, typeahead suggestions, single-company retrieval, and
-      domain WHOIS/RDAP lookups. Bearer API-key auth (flh_live_...), tied to a paid plan; 60 req/min per key.
+      Authenticated, read-only REST/JSON API for company search and lookup, typeahead suggestions, single-company
+      retrieval (by id or tax number), and domain WHOIS/RDAP lookups. Static bearer API-key auth (flh_live_...), tied
+      to a paid plan; 60 req/min per key plus a plan-dependent monthly quota.
     humanURL: https://felho.hu/dokumentacio
     baseURL: https://felho.hu/api/v1
+    image: https://felho.hu/og
     tags:
       - company data
       - business verification
@@ -35,6 +40,10 @@ apis:
     properties:
       - type: Documentation
         url: https://felho.hu/dokumentacio
+      - type: APIReference
+        url: https://felho.hu/dokumentacio
+      - type: LLMsTxt
+        url: llms/felh-magyar-zleti-infrastrukt-ra-llms.txt
       - type: LLMsTxt
         url: https://felho.hu/llms.txt
       - type: LLMsTxt
@@ -45,11 +54,51 @@ apis:
         url: https://felho.hu/llms-en.txt
       - type: LLMsTxt
         url: https://felho.hu/llms-hu.txt
+      - type: Authentication
+        url: authentication/felh-magyar-zleti-infrastrukt-ra-authentication.yml
+      - type: Conventions
+        url: conventions/felh-magyar-zleti-infrastrukt-ra-conventions.yml
+      - type: RateLimits
+        url: rate-limits/felh-magyar-zleti-infrastrukt-ra-rate-limits.yml
+      - type: ErrorCatalog
+        url: errors/felh-magyar-zleti-infrastrukt-ra-problem-types.yml
+      - type: DataModel
+        url: data-model/felh-magyar-zleti-infrastrukt-ra-data-model.yml
+      - type: Conformance
+        url: conformance/felh-magyar-zleti-infrastrukt-ra-conformance.yml
+      - type: Lifecycle
+        url: lifecycle/felh-magyar-zleti-infrastrukt-ra-lifecycle.yml
+      - type: Plans
+        url: plans/felh-magyar-zleti-infrastrukt-ra-plans-pricing.yml
+      - type: MCPServer
+        url: mcp/felh-magyar-zleti-infrastrukt-ra-mcp.yml
 maintainers:
   - FN: Verde Holding Kft.
     url: https://felho.hu
-generated:
+x-generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 90
   at: '2026-09-17T23:57:15.132Z'
+common:
+- type: DomainSecurity
+  url: security/felh-magyar-zleti-infrastrukt-ra-domain-security.yml
+- type: Website
+  url: https://felho.hu
+- type: Documentation
+  url: https://felho.hu/dokumentacio
+- type: Pricing
+  url: https://felho.hu/arak
+- type: StatusPage
+  url: https://felho.hu/statusz
+- type: SignUp
+  url: https://felho.hu/login
+- type: TermsOfService
+  url: https://felho.hu/aszf
+- type: PrivacyPolicy
+  url: https://felho.hu/adatvedelem
+x-enrichment:
+  date: '2026-09-18'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v3

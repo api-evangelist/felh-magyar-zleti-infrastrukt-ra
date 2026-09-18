@@ -1,0 +1,47 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt ("Hibakódok") + live 401 probe of https://felho.hu/api/v1/companies
+docs: https://felho.hu/dokumentacio
+format: custom-json          # NOT RFC 9457 problem+json
+envelope:
+  content_type: application/json
+  fields:
+    - name: error
+      description: Stable machine-readable error code (e.g. unauthorized, not_found).
+    - name: message
+      description: Human-readable explanation.
+  example: '{"error":"unauthorized","message":"Missing API key. Send it as: Authorization: Bearer flh_..."}'
+notes: >-
+  The error body is a flat {error, message} JSON object, not application/problem+json — rfc9457
+  conformance is false. Error codes are documented and stable in the published reference.
+problem_types:
+  - code: unauthorized
+    status: 401
+    title: Missing, revoked or invalid API key.
+    remediation: 'Send a valid key as `Authorization: Bearer flh_live_…`.'
+  - code: payment_required
+    status: 402
+    title: Key valid but workspace is on the free plan.
+    remediation: >-
+      The API is part of the paid plans. The same key resumes working when the plan is activated;
+      no new key needs to be issued.
+  - code: not_found
+    status: 404
+    title: No record with this identifier.
+    remediation: >-
+      Check the id/tax number. If a tax-number check digit is invalid, the 404 flags that
+      specifically.
+  - code: rate_limit_exceeded
+    status: 429
+    title: Exceeded 60 requests per minute.
+    remediation: Back off within the minute; read the X-RateLimit-Remaining header.
+  - code: quota_exceeded
+    status: 429
+    title: Monthly plan quota exhausted.
+    remediation: >-
+      X-Quota-Remaining shows the remainder on every response; the quota resets on the first day
+      of the month (UTC). No Retry-After is sent by design.
+  - code: service_unavailable
+    status: 503
+    title: Backend service unavailable.
+    remediation: The request may be retried.

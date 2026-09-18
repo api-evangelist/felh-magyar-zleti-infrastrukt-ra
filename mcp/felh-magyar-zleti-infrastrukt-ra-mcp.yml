@@ -1,0 +1,35 @@
+generated: '2026-09-18'
+method: derived
+source: https://felho.hu/llms-api-hu.txt (documented GET endpoints)
+status: candidate
+description: >-
+  No MCP server is published by Felho (hosted or local). Probed https://felho.hu/mcp,
+  https://felho.hu/api/mcp and https://mcp.felho.hu/mcp on 2026-09-18 — the first two return
+  the SPA 404 shell, the mcp. host does not resolve. This is a DERIVED candidate tool list from
+  the four documented REST endpoints, offered as a shape a server could expose; nobody ships it.
+deployment:
+  mode: none
+  endpoint: ''
+  install: ''
+  package: ''
+  auth: api-key
+  verified: derived
+tools:
+  - name: search_companies
+    rest: GET /companies
+    description: >-
+      Paginated, filterable list/search of indexed companies (free-text q, city, industry;
+      matches name, tax number, registration number, managing-director name).
+    inputSchema_source: llms-api-hu.txt (q, city, industry, limit, offset)
+  - name: suggest_companies
+    rest: GET /companies/suggest
+    description: Typeahead company suggestions for invoicing/ERP autofill (q >= 2 chars, limit 1-20).
+  - name: get_company
+    rest: GET /companies/{id}
+    description: Full company record by id or tax number (any tax-number spelling accepted).
+  - name: whois_lookup
+    rest: GET /whois/{domain}
+    description: WHOIS/RDAP domain registration lookup (three-valued registered field).
+note: >-
+  Candidate only — parameters are read from the published reference, not from a live MCP schema.
+  Do not treat as a reachable agent surface.

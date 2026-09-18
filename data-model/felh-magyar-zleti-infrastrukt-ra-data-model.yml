@@ -1,0 +1,50 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt (documented response bodies)
+docs: https://felho.hu/dokumentacio
+note: >-
+  Derived from the documented JSON response shapes in the published API reference (no OpenAPI is
+  published). Entities and relationships are read from the example bodies of GET /companies,
+  GET /companies/{id} and GET /whois/{domain}.
+entities:
+  - name: Company
+    id_field: id
+    also_addressable_by: [taxNumber]
+    key_fields: [id, name, legalName, taxNumber, taxRoot, registrationNumber, status, industry,
+      teaorCode, city, address, addressParts, verificationScore, riskLevel, employeeCount, source]
+    source_values: [felho, nav]
+    note: >-
+      Two record shapes share this entity. source=felho is the full profile (officers, financials,
+      bankAccounts, compliance markers); source=nav is the NAV VAT-registry shape (name, seat,
+      registered headcount, retrievedAt) with registry fields null.
+  - name: Officer
+    key_fields: [name, role, motherName, residence]
+  - name: Financial
+    key_fields: [year, totalRevenue, profitAfterTax, equity, employees]
+  - name: BankAccount
+    key_fields: [number, opened, bank, status]
+    note: bank is derived from the first three digits of the account number; null if not identifiable.
+  - name: AddressParts
+    key_fields: [raw, postcode, city, street]
+  - name: WhoisRecord
+    id_field: domain
+    key_fields: [domain, registered, registrar, createdDate, expiryDate, estimatedExpiry,
+      nameservers, source, note]
+    note: registered is three-valued (true/false/null); null never means available.
+relationships:
+  - from: Company
+    to: Officer
+    type: has_many
+    via: officers
+  - from: Company
+    to: Financial
+    type: has_many
+    via: financials
+  - from: Company
+    to: BankAccount
+    type: has_many
+    via: bankAccounts
+  - from: Company
+    to: AddressParts
+    type: has_one
+    via: addressParts

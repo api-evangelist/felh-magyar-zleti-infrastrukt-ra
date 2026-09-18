@@ -1,0 +1,38 @@
+generated: '2026-09-18'
+method: searched
+source: https://felho.hu/llms-api-hu.txt + https://felho.hu/teaor-index.json
+docs: https://felho.hu/dokumentacio
+conformance:
+  - id: rfc9457
+    name: Problem Details for HTTP APIs (application/problem+json)
+    conforms: false
+    evidence: >-
+      Errors use a flat {error, message} JSON envelope with application/json, not
+      application/problem+json. See llms-api-hu.txt "Hibakódok".
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: Authentication is a static bearer API key (flh_live_…), not an OAuth flow.
+  - id: pagination
+    name: Offset/limit pagination
+    conforms: true
+    evidence: >-
+      GET /companies documents limit (max 100, default 25) and offset (default 0) params and a
+      pagination object {total, limit, offset, hasMore}. llms-api-hu.txt "GET /companies".
+domain_standard:
+  - id: teaor-25
+    name: TEÁOR'25 (Hungarian activity classification, national NACE Rev.2.1 derivative)
+    declared: true
+    evidence: >-
+      Company records carry a teaorCode field, and the full four-level TEÁOR'25 classification is
+      published unauthenticated as machine-readable JSON at https://felho.hu/teaor-index.json
+      (probed 2026-09-18, HTTP 200, application/json). A consumer that already speaks TEÁOR'25
+      integrates the industry code with no bespoke mapping.
+consumed_standards:
+  - id: rdap
+    name: RDAP / WHOIS (domain registration data)
+    note: >-
+      GET /whois/{domain} wraps WHOIS/RDAP lookups. The API is a client/aggregator of RDAP, not an
+      RDAP server itself, so it is recorded as a consumed standard, not a conformance claim. The
+      response carries a three-valued `registered` field and a note that several registries
+      (.hu/.de/.at/.eu) do not publish expiry dates.

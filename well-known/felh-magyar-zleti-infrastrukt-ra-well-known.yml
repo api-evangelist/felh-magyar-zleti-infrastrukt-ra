@@ -1,0 +1,39 @@
+generated: '2026-09-18'
+method: probed
+source: live probes of /.well-known/ on felho.hu
+summary: >-
+  No /.well-known/ documents are served. Every probed path returns HTTP 404 rendered as the
+  Next.js SPA 404 shell (text/html, ~135 KB), which is a miss, not a document. No security.txt,
+  no OIDC/OAuth discovery (the API uses static bearer keys, not OAuth), no api-catalog, and no
+  ai-plugin.json. NO WellKnown or SecurityTxt pointer is emitted because no path returned a real
+  document. There is no www host (www.felho.hu does not resolve) and no MCP host (mcp.felho.hu
+  does not resolve).
+pointer_basis: >-
+  No pointer emitted. All paths 404; recording a served-absence as required, without a claim.
+hosts:
+  - host: https://felho.hu
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/openid-configuration
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/api-catalog
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/agent-card.json
+        status: 404
+        note: SPA 404 shell (text/html)
+      - path: /.well-known/agent.json
+        status: 404
+        note: SPA 404 shell (text/html)
