@@ -16,7 +16,7 @@ tags:
   - Domains
   - WHOIS/RDAP
   - Hungary
-  - registry data
+  - Registry Data
   - Financial Data
 tags_raw:
   - company data
@@ -42,7 +42,7 @@ apis:
       - Domains
       - WHOIS/RDAP
       - Hungary
-      - registry data
+      - Registry Data
       - Financial Data
     tags_raw:
       - company data
