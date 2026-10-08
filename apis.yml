@@ -97,6 +97,10 @@ x-generated:
   confidence: 90
   at: '2026-09-17T23:57:15.132Z'
 common:
+- type: Plans
+  url: plans/felh-magyar-zleti-infrastrukt-ra-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/felh-magyar-zleti-infrastrukt-ra-rate-limits.yml
 - type: DomainSecurity
   url: security/felh-magyar-zleti-infrastrukt-ra-domain-security.yml
 - type: Website
