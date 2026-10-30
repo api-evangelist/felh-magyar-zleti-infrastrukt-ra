@@ -1,4 +1,4 @@
-# felh-magyar-zleti-infrastrukt-ra
+# Felhő — Magyar üzleti infrastruktúra
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,108 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Hungarian business-infrastructure platform offering company information (registry data, financials, officers/owners, TEÁOR'25 activity codes), business verification and risk scoring, address/tax-number and bank routing lookups, and domain/WHOIS-RDAP tools. Provides an authenticated REST/JSON API and agent-native llms.txt artifacts. Operated by Verde Holding Kft.
+Hungarian business-infrastructure platform offering company information (registry data, financials, officers/owners, TEÁOR'25 activity codes), business verification and risk scoring, address/tax-number and bank routing lookups, and domain/WHOIS-RDAP tools. Provides an authenticated REST/JSON API and agent-native llms.txt artifacts. Operated by Verde Holding Kft.; data is drawn from the public Hungarian company register, published financial statements and the NAV VAT registry. Missing data is returned as null, never estimated.
+
+**Areas:** Company Data · Business Verification · Domains · WHOIS/RDAP · Hungary · Registry Data · Financial Data
+
+## Felhő — Magyar üzleti infrastruktúra on APIs.io
+
+Everything profiled for Felhő — Magyar üzleti infrastruktúra is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/felh-magyar-zleti-infrastrukt-ra/](https://apis.io/providers/felh-magyar-zleti-infrastrukt-ra/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Felhő REST API v1](https://apis.io/apis/felh-magyar-zleti-infrastrukt-ra/felhő-rest-api-v1/) — Authenticated, read-only REST/JSON API for company search and lookup, typeahead suggestions, single-company retrieval (by id or tax number), and domain…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [felh-magyar-zleti-infrastrukt-ra-mcp.yml](https://apis.io/servers/felh-magyar-zleti-infrastrukt-ra/felh-magyar-zleti-infrastrukt-ra-mcp-yml/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Felh Magyar Zleti Infrastrukt Ra Authentication](https://apis.io/security/felh-magyar-zleti-infrastrukt-ra/felh-magyar-zleti-infrastrukt-ra-authentication/)
+- [Felh Magyar Zleti Infrastrukt Ra Domain Security](https://apis.io/security/felh-magyar-zleti-infrastrukt-ra/felh-magyar-zleti-infrastrukt-ra-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Felh Magyar Zleti Infrastrukt Ra Plans Pricing](https://apis.io/plans/felh-magyar-zleti-infrastrukt-ra/felh-magyar-zleti-infrastrukt-ra-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Felh Magyar Zleti Infrastrukt Ra Rate Limits](https://apis.io/rate-limits/felh-magyar-zleti-infrastrukt-ra/felh-magyar-zleti-infrastrukt-ra-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://felho.hu)
+- [Documentation](https://felho.hu/dokumentacio)
+- [Pricing](https://felho.hu/arak)
+- [Sign up](https://felho.hu/login)
+- [Terms of service](https://felho.hu/aszf)
+- [Privacy policy](https://felho.hu/adatvedelem)
+- [Status](https://felho.hu/statusz)
+
+## API Evangelist rating
+
+**Kin Score 37.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 67.9 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 47.4 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 76.3 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/felh-magyar-zleti-infrastrukt-ra/](https://apis.io/providers/felh-magyar-zleti-infrastrukt-ra/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Felhő — Magyar üzleti infrastruktúra: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/felh-magyar-zleti-infrastrukt-ra/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
